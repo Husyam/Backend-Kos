@@ -24,7 +24,7 @@ class UserController extends Controller
     //create
     public function create()
     {
-        return view('pages.user.Create');
+        return view('pages.user.create');
     }
 
     //store
