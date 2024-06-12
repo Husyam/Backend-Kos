@@ -27,7 +27,7 @@
             <div class="section-body">
                 <h2 class="section-title">Product</h2>
                 <div class="card">
-                    <form action="{{ route('product.update', $product) }}" method="POST">
+                    <form action="{{ route('product.update', $product) }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <div class="card-header">
@@ -56,6 +56,20 @@
                             @enderror"
                                     name="name_owner" value="{{ $product->name_owner }}">
                                 @error('name_owner')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+
+                            <div class="form-group">
+                                <label>category gender</label>
+                                <input type="text"
+                                    class="form-control @error('category_gender')
+                                is-invalid
+                            @enderror"
+                                    name="category_gender" value="{{ $product->category_gender }}">
+                                @error('category_gender')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
@@ -119,6 +133,20 @@
                             </div>
 
                             <div class="form-group">
+                                <label>Address</label>
+                                <input type="text"
+                                    class="form-control @error('address')
+                                is-invalid
+                            @enderror"
+                                    name="address" value="{{ $product->address}}">
+                                @error('address')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+
+                            <div class="form-group">
                                 <label>Longitude</label>
                                 <input type="number"
                                     class="form-control @error('longitude')
@@ -157,6 +185,7 @@
                                     @endforeach
                                 </select>
                             </div>
+
                             <div class="form-group">
                                 <label>Photo Product</label>
                                 <div class="col-sm-9">

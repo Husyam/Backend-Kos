@@ -22,10 +22,12 @@ class ProductFactory extends Factory
             'name_owner' => fake()->name(),
             //contact
             'no_kontak' => fake()->numberBetween(12),
+            'category_gender' => fake()->randomElement(['Laki-laki', 'Perempuan', 'Campuran']),
             //price
             'price' => fake()->randomNumber(4),
             'description' => fake()->text(),
             'stock' => fake()->randomNumber(2),
+            'address' => fake()->address(),
             'longitude' => fake()->longitude(),
             'latitude' => fake()->latitude(),
             'image' => fake()->imageUrl(),

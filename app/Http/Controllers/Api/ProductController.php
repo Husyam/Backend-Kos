@@ -18,11 +18,28 @@ class ProductController extends Controller
             return $query->where('category_id', $request->category_id);
         })->paginate(10);
 
+        // Tambahkan URL lengkap untuk gambar
+        $products->getCollection()->transform(function ($product) {
+            $product->image = $this->getFullImageUrl($product->image);
+            return $product;
+        });
+
         return response()->json([
             'status' => 'success',
             'data' => $products
         ], 200);
 
+    }
+
+    private function getFullImageUrl($image)
+    {
+        // Jika gambar sudah merupakan URL lengkap, tidak perlu mengubahnya
+        if (filter_var($image, FILTER_VALIDATE_URL)) {
+            return $image;
+        }
+
+        // Menghasilkan URL gambar yang lengkap
+        return url('storage/public/products/' . $image);
     }
 
     /**

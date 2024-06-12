@@ -53,10 +53,12 @@
                                             <th>Name</th>
                                             <th>Category</th>
                                             <th>Name Owner</th>
+                                            <th>Category Gender</th>
                                             <th>No kontak</th>
                                             <th>Price</th>
                                             <th>Description</th>
                                             <th>Stock</th>
+                                            <th>Address</th>
                                             <th>longitude</th>
                                             <th>latitude</th>
 
@@ -71,6 +73,8 @@
                                                 </td>
                                                 <td>{{ $product->name_owner }}
                                                 </td>
+                                                <td>{{ $product->category_gender }}
+                                                </td>
                                                 <td>{{ $product->no_kontak }}
                                                 </td>
                                                 <td>{{ $product->price }}
@@ -78,6 +82,8 @@
                                                 <td>{{ $product->description }}
                                                 </td>
                                                 <td>{{ $product->stock }}
+                                                </td>
+                                                <td>{{ $product->address }}
                                                 </td>
                                                 <td>{{ $product->longitude }}
                                                 </td>
@@ -94,7 +100,7 @@
                                                         </a>
 
                                                         <form action="{{ route('product.destroy', $product->id) }}"
-                                                            method="POST" class="ml-2">
+                                                            method="POST" class="ml-2" enctype="multipart/form-data">
                                                             <input type="hidden" name="_method" value="DELETE" />
                                                             <input type="hidden" name="_token"
                                                                 value="{{ csrf_token() }}" />

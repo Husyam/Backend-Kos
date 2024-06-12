@@ -4,60 +4,91 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Category;
+use Illuminate\Support\Facades\Storage;
 
 class CategoryController extends Controller
 {
-    //return pages category
+    // Return pages category
     public function index()
     {
-        $categories = \App\Models\Category::paginate(5);
+        $categories = Category::paginate(5);
         return view('pages.category.index', compact('categories'));
-        // return view('pages.category.index');
     }
 
-    //create
+    // Create
     public function create()
     {
         return view('pages.category.create');
     }
 
-    //store
+    // Store
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|max:100',
-            'description' => 'required|max:100',
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        $category = \App\Models\Category::create($validated);
-        return redirect()->route('category.index')->with('success', 'Category has been added');
+        $filename = time() . '.' . $request->image->extension();
+        $request->image->storeAs('public/categories', $filename);
 
+        $category = new Category;
+        $category->name = $request->name;
+        $category->description = $request->description;
+        $category->image = $filename;
+        $category->save();
+
+        return redirect()->route('category.index')->with('success', 'Category has been added');
     }
 
-    //edit
+    // Edit
     public function edit($id)
     {
-        $category = \App\Models\Category::findOrFail($id);
+        $category = Category::findOrFail($id);
         return view('pages.category.edit', compact('category'));
     }
 
-    //update
+    // Update
     public function update(Request $request, $id)
     {
-        $validated = $request->validate([
-            'name' => 'required|max:100',
-            'description' => 'required|max:100',
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        $category = \App\Models\Category::findOrFail($id);
-        $category->update($validated);
+        $category = Category::findOrFail($id);
+        $category->name = $request->name;
+        $category->description = $request->description;
+
+        if ($request->hasFile('image')) {
+            // Delete the old image
+            if ($category->image && Storage::exists('public/categories/' . $category->image)) {
+                Storage::delete('public/categories/' . $category->image);
+            }
+
+            // Store the new image
+            $filename = time() . '.' . $request->image->extension();
+            $request->image->storeAs('public/categories', $filename);
+            $category->image = $filename;
+        }
+
+        $category->save();
+
         return redirect()->route('category.index')->with('success', 'Category has been updated');
     }
 
-    //destroy
+    // Destroy
     public function destroy($id)
     {
         $category = Category::findOrFail($id);
+
+        // Delete the image from storage
+        if ($category->image && Storage::exists('public/categories/' . $category->image)) {
+            Storage::delete('public/categories/' . $category->image);
+        }
+
         $category->delete();
         return redirect()->route('category.index')->with('success', 'Category has been deleted');
     }

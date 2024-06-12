@@ -30,7 +30,7 @@
 
 
                 <div class="card">
-                    <form action="{{ route('category.update', $category) }}" method="POST">
+                    <form action="{{ route('category.update', $category) }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <div class="card-header">
@@ -58,6 +58,19 @@
                             @enderror"
                                     name="description" value="{{ $category->description }}">
                                 @error('description')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+
+                            <div class="form-group">
+                                <label>Photo Category</label>
+                                <div class="col-sm-9">
+                                    <input type="file" class="form-control" name="image"
+                                        @error('image') is-invalid @enderror>
+                                </div>
+                                @error('image')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>

@@ -13,12 +13,49 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //get all categories
-        $categories = Category::all();
+        // //get all categories
+        // $categories = Category::all();
+        // return response()->json([
+        //     'status' => 'success',
+        //     'data' => $categories
+        // ], 200);
+
+        // Get all categories
+        // $categories = Category::all()->map(function ($category) {
+        //     // Tambahkan URL lengkap untuk gambar
+        //     if (!filter_var($category->image, FILTER_VALIDATE_URL)) {
+        //         $category->image = url('storage/categories/' . $category->image);
+        //     }
+        //     return $category;
+        // });
+
+        // return response()->json([
+        //     'status' => 'success',
+        //     'data' => $categories
+        // ], 200);
+        // Get all categories
+
+        $categories = Category::all()->map(function ($category) {
+            // Tambahkan URL lengkap untuk gambar
+            $category->image = $this->getFullImageUrl($category->image);
+            return $category;
+        });
+
         return response()->json([
             'status' => 'success',
             'data' => $categories
         ], 200);
+    }
+
+    private function getFullImageUrl($image)
+    {
+        // Jika gambar sudah merupakan URL lengkap, tidak perlu mengubahnya
+        if (filter_var($image, FILTER_VALIDATE_URL)) {
+            return $image;
+        }
+
+        // Menghasilkan URL gambar yang lengkap
+        return url('storage/public/categories/' . $image);
     }
 
     /**

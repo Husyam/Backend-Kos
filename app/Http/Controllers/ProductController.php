@@ -40,6 +40,8 @@ class ProductController extends Controller
         $product->stock = (int) $request->stock;
         $product->longitude = $request->longitude;
         $product->latitude = $request->latitude;
+        $product->address = $request->address;
+        $product->category_gender = $request->category_gender;
         $product->category_id = $request->category_id;
         $product->image = $filename;
         $product->save();
@@ -61,10 +63,12 @@ class ProductController extends Controller
         $product = \App\Models\Product::findOrFail($id);
         $product->name = $request->name;
         $product->name_owner = $request->name_owner;
+        $product->category_gender = $request->category_gender;
         $product->no_kontak = $request->no_kontak;
         $product->price = (int) $request->price;
         $product->description = $request->description;
         $product->stock = (int) $request->stock;
+        $product->address = $request->address;
         $product->longitude = $request->longitude;
         $product->latitude = $request->latitude;
         $product->category_id = $request->category_id;

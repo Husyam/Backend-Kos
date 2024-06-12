@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('name');
             //name owner
             $table->string('name_owner');
+            //category gender
+            $table->string('category_gender');
             //no hp
             $table->string('no_kontak');
             //price
@@ -27,6 +29,8 @@ return new class extends Migration
             $table->text('description')->nullable();
             //stock
             $table->integer('stock');
+            //address
+            $table->string('address');
             //create longitude latitude
             $table->string('longitude');
             $table->string('latitude');

@@ -62,6 +62,21 @@
                                     </div>
                                 @enderror
                             </div>
+
+                            <div class="form-group">
+                                <label>Category Gender</label>
+                                <input type="text"
+                                    class="form-control @error('category_gender')
+                                is-invalid
+                            @enderror"
+                                    name="category_gender">
+                                @error('category_gender')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+
                             <div class="form-group">
                                 <label>No Kontak</label>
                                 <input type="number"
@@ -114,6 +129,21 @@
                                     </div>
                                 @enderror
                             </div>
+
+                            <div class="form-group">
+                                <label>Address</label>
+                                <input type="text"
+                                    class="form-control @error('address')
+                                is-invalid
+                            @enderror"
+                                    name="address">
+                                @error('address')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+
                             <div class="form-group">
                                 <label>Longitude</label>
                                 <input type="text"

@@ -52,7 +52,7 @@
                                         <tr>
 
                                             <th>Name</th>
-
+                                            {{-- <th>Image</th> --}}
                                             <th>Created At</th>
                                             <th>Action</th>
                                         </tr>
@@ -61,6 +61,8 @@
 
                                                 <td>{{ $category->name }}
                                                 </td>
+                                                {{-- <td>{{ $category->image }}
+                                                </td> --}}
                                                 <td>{{ $category->created_at }}</td>
                                                 <td>
                                                     <div class="d-flex justify-content-center">
@@ -71,7 +73,7 @@
                                                         </a>
 
                                                         <form action="{{ route('category.destroy', $category->id) }}"
-                                                            method="POST" class="ml-2">
+                                                            method="POST" class="ml-2" enctype="multipart/form-data">
                                                             <input type="hidden" name="_method" value="DELETE" />
                                                             <input type="hidden" name="_token"
                                                                 value="{{ csrf_token() }}" />
