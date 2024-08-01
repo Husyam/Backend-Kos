@@ -16,10 +16,12 @@ class AuthController extends Controller
            'email' => 'required|email|unique:users',
            'password' => 'required|min:8',
            'phone' => 'required|max:15',
-           'roles' => 'required|max:10',
+        //    'roles' => 'required|max:10',
        ]);
 
        $validated['password'] = Hash::make($validated['password']);
+       $validated['roles'] = 'USER';  // Set default role to USER
+
 
        $user = User::create($validated);
 
@@ -29,8 +31,10 @@ class AuthController extends Controller
            'access_token' => $token,
            'user' => $user,
         //    'token_type' => 'Bearer',
-       ],201);
+       ],200);
    }
+
+
 
    //logout
     public function logout(Request $request)
@@ -44,6 +48,7 @@ class AuthController extends Controller
     //login
     public function login(Request $request)
     {
+
         $validated = $request->validate([
             'email' => 'email|required',
             'password' => 'required',
@@ -57,17 +62,58 @@ class AuthController extends Controller
             ], 401);
         }
 
+        // Memeriksa role pengguna sebelum memberikan akses
+        if ($user->roles !== 'USER') {
+            return response()->json([
+                'message' => 'User atau email tidak ditemukan'
+            ], 403);
+        }
+
         if (!Hash::check($validated['password'], $user->password)) {
             return response()->json([
-                'message' => 'Invalid Password '
+                'message' => 'Invalid Password'
             ], 401);
         }
 
         $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([
-            'acces_token' => $token,
+            'access_token' => $token,
             'user' => $user,
+            'message' => 'Login success'
+        ], 200);
+    }
+
+    //login by user id
+    public function loginById(Request $request, $id)
+    {
+        // Cari pengguna berdasarkan id
+        $user = User::find($id);
+
+        if (!$user) {
+            return response()->json([
+                'message' => 'User Not Found'
+            ], 404);
+        }
+
+        return response()->json([
+            'user' => $user,
+        ], 200);
+    }
+
+
+
+    public function updateFcmId(Request $request){
+        $validated = $request->validate([
+            'fcm_id' => 'required'
+        ]);
+
+        $user = $request->user();
+        $user->fcm_id = $validated['fcm_id'];
+        $user->save();
+
+        return response()->json([
+            'message' => 'FCM ID updated'
         ], 200);
     }
 }

@@ -144,19 +144,7 @@
                                 @enderror
                             </div>
 
-                            <div class="form-group">
-                                <label>Longitude</label>
-                                <input type="text"
-                                    class="form-control @error('longitude')
-                                is-invalid
-                            @enderror"
-                                    name="longitude">
-                                @error('longitude')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
+
                             <div class="form-group">
                                 <label>Latitude</label>
                                 <input type="text"
@@ -170,6 +158,21 @@
                                     </div>
                                 @enderror
                             </div>
+
+                            <div class="form-group">
+                                <label>Longitude</label>
+                                <input type="text"
+                                    class="form-control @error('longitude')
+                                is-invalid
+                            @enderror"
+                                    name="longitude">
+                                @error('longitude')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+
                             <div class="form-group">
                                 <label class="form-label">Category</label>
                                 <select class="form-control @error('category_id') is-invalid @enderror" name="category_id">

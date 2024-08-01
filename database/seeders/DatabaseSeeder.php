@@ -21,9 +21,11 @@ class DatabaseSeeder extends Seeder
 
         \App\Models\Category::factory(4)->create();
         \App\Models\Product::factory(10)->create();
+        \App\Models\User::factory(10)->create();
 
         $this->call([
             UserSeeder::class,
+            PersonalDataSeeder::class,
         ]);
     }
 }

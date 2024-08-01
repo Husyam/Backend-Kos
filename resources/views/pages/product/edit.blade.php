@@ -147,13 +147,11 @@
                             </div>
 
                             <div class="form-group">
-                                <label>Longitude</label>
-                                <input type="number"
-                                    class="form-control @error('longitude')
-                                is-invalid
-                            @enderror"
-                                    name="longitude" value="{{ $product->longitude}}">
-                                @error('longitude')
+                                <label>Latitude</label>
+                                <input type="number" step="0.000001"
+                                    class="form-control @error('latitude') is-invalid @enderror"
+                                    name="latitude" value="{{ old('latitude', $product->latitude) }}">
+                                @error('latitude')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
@@ -161,13 +159,11 @@
                             </div>
 
                             <div class="form-group">
-                                <label>Latitude</label>
-                                <input type="number"
-                                    class="form-control @error('latitude')
-                                is-invalid
-                            @enderror"
-                                    name="latitude" value="{{ $product->latitude}}">
-                                @error('latitude')
+                                <label>Longitude</label>
+                                <input type="number" step="0.000001"
+                                    class="form-control @error('longitude') is-invalid @enderror"
+                                    name="longitude" value="{{ old('longitude', $product->longitude) }}">
+                                @error('longitude')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>

@@ -28,8 +28,8 @@ class ProductFactory extends Factory
             'description' => fake()->text(),
             'stock' => fake()->randomNumber(2),
             'address' => fake()->address(),
-            'longitude' => fake()->longitude(),
             'latitude' => fake()->latitude(),
+            'longitude' => fake()->longitude(),
             'image' => fake()->imageUrl(),
             'category_id' => fake()->numberBetween(1, 4),
         ];

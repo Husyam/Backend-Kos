@@ -38,8 +38,8 @@ class ProductController extends Controller
         $product->price = (int) $request->price;
         $product->description = $request->description;
         $product->stock = (int) $request->stock;
-        $product->longitude = $request->longitude;
         $product->latitude = $request->latitude;
+        $product->longitude = $request->longitude;
         $product->address = $request->address;
         $product->category_gender = $request->category_gender;
         $product->category_id = $request->category_id;
@@ -69,8 +69,8 @@ class ProductController extends Controller
         $product->description = $request->description;
         $product->stock = (int) $request->stock;
         $product->address = $request->address;
-        $product->longitude = $request->longitude;
         $product->latitude = $request->latitude;
+        $product->longitude = $request->longitude;
         $product->category_id = $request->category_id;
 
         if ($request->image) {

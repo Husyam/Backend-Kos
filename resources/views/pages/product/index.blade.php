@@ -59,8 +59,8 @@
                                             <th>Description</th>
                                             <th>Stock</th>
                                             <th>Address</th>
-                                            <th>longitude</th>
                                             <th>latitude</th>
+                                            <th>longitude</th>
 
                                             <th>Created At</th>
                                             <th>Action</th>
@@ -85,9 +85,9 @@
                                                 </td>
                                                 <td>{{ $product->address }}
                                                 </td>
-                                                <td>{{ $product->longitude }}
-                                                </td>
                                                 <td>{{ $product->latitude }}
+                                                </td>
+                                                <td>{{ $product->longitude }}
                                                 </td>
 
                                                 <td>{{ $product->created_at }}</td>

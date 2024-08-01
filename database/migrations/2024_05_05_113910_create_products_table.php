@@ -32,8 +32,9 @@ return new class extends Migration
             //address
             $table->string('address');
             //create longitude latitude
-            $table->string('longitude');
-            $table->string('latitude');
+
+            $table->decimal('latitude', 10, 8);
+            $table->decimal('longitude', 11, 8);
             //image
             $table->string('image')->nullable();
             //isavailable
