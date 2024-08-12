@@ -9,9 +9,14 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('admin');
+    }
     //index
     public function index(Request $request)
     {
+
         //get users with paginate
         $users = DB::table('users')
             ->when($request->input('name'), function ($query, $name) {

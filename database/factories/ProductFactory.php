@@ -26,6 +26,7 @@ class ProductFactory extends Factory
             //price
             'price' => fake()->randomNumber(4),
             'description' => fake()->text(),
+            // 'fasilitas' => fake()->randomElement(['AC', 'Wifi', 'Kulkas', 'TV', 'Kamar Mandi', 'smoking area']),
             'stock' => fake()->randomNumber(2),
             'address' => fake()->address(),
             'latitude' => fake()->latitude(),

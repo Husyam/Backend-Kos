@@ -33,12 +33,15 @@ return new class extends Migration
             $table->string('address');
             //create longitude latitude
 
-            $table->decimal('latitude', 10, 8);
-            $table->decimal('longitude', 11, 8);
+            // $table->decimal('latitude', 10, 8);
+            // $table->decimal('longitude', 11, 8);
+            $table->string('latitude', 20);
+            $table->string('longitude', 20);
             //image
             $table->string('image')->nullable();
             //isavailable
             $table->boolean('is_available')->default(true);
+            $table->string('fasilitas')->nullable();
             $table->timestamps();
         });
     }

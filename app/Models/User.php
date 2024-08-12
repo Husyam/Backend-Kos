@@ -49,6 +49,16 @@ class User extends Authenticatable
 
     public function personalData()
     {
-        return $this->hasMany(PersonalData::class);
+        return $this->hasOne(PersonalData::class);
+    }
+
+    public function hasRole($roles)
+    {
+        return $this->roles()->where('name', $roles)->exists();
+    }
+
+    public function isAdmin()
+    {
+        return $this->roles === 'ADMIN';
     }
 }

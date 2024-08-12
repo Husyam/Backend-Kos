@@ -62,7 +62,7 @@
                                 @enderror
                             </div>
 
-                            <div class="form-group">
+                            {{-- <div class="form-group">
                                 <label>category gender</label>
                                 <input type="text"
                                     class="form-control @error('category_gender')
@@ -74,7 +74,22 @@
                                         {{ $message }}
                                     </div>
                                 @enderror
+                            </div> --}}
+
+                            <div class="form-group">
+                                <label>Category Gender</label>
+                                <select class="form-control @error('category_gender') is-invalid @enderror" name="category_gender">
+                                    <option value="Laki-Laki" {{ $product->category_gender == 'Laki-Laki' ? 'selected' : '' }}>Laki-Laki</option>
+                                    <option value="Perempuan" {{ $product->category_gender == 'Perempuan' ? 'selected' : '' }}>Perempuan</option>
+                                    <option value="Campuran" {{ $product->category_gender == 'Campuran' ? 'selected' : '' }}>Campuran</option>
+                                </select>
+                                @error('category_gender')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                             </div>
+
 
                             <div class="form-group">
                                 <label>No Kontak</label>
@@ -116,6 +131,19 @@
                                         {{ $message }}
                                     </div>
                                 @enderror
+                            </div>
+
+                            <div class="form-group ">
+                                <label>Fasilitas</label>
+                                <div class="checkbox">
+                                    @foreach ($facilities as $facility)
+                                        <label>
+                                            <input type="checkbox" name="fasilitas[]" value="{{ $facility }}"
+                                                   @if(in_array($facility, json_decode($product->fasilitas, true))) checked @endif
+                                            > {{ $facility }}
+                                        </label>
+                                    @endforeach
+                                </div>
                             </div>
 
                             <div class="form-group">

@@ -34,7 +34,7 @@
                             <div class="card-body">
 
                                 <div class="float-right">
-                                    <form method="GET" action="{{ route('user.index') }}">
+                                    <form method="GET" action="{{ route('product.index') }}">
                                         <div class="input-group">
                                             <input type="text" class="form-control" placeholder="Search" name="name">
                                             <div class="input-group-append">
@@ -57,6 +57,7 @@
                                             <th>No kontak</th>
                                             <th>Price</th>
                                             <th>Description</th>
+                                            <th>Fasilitas</th>
                                             <th>Stock</th>
                                             <th>Address</th>
                                             <th>latitude</th>
@@ -81,6 +82,17 @@
                                                 </td>
                                                 <td>{{ $product->description }}
                                                 </td>
+                                                <td>
+                                                    @if (is_array($product->fasilitas))
+                                                        <ul>
+                                                            @foreach ($product->fasilitas as $fasilitas)
+                                                                <li>{{ $fasilitas }}</li>
+                                                            @endforeach
+                                                        </ul>
+                                                    @else
+                                                        {{ $product->fasilitas }}
+                                                    @endif
+                                                </td>
                                                 <td>{{ $product->stock }}
                                                 </td>
                                                 <td>{{ $product->address }}
@@ -89,6 +101,8 @@
                                                 </td>
                                                 <td>{{ $product->longitude }}
                                                 </td>
+
+
 
                                                 <td>{{ $product->created_at }}</td>
                                                 <td>

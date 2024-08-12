@@ -63,13 +63,27 @@
                                 @enderror
                             </div>
 
-                            <div class="form-group">
+                            {{-- <div class="form-group">
                                 <label>Category Gender</label>
                                 <input type="text"
                                     class="form-control @error('category_gender')
                                 is-invalid
                             @enderror"
                                     name="category_gender">
+                                @error('category_gender')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div> --}}
+
+                            <div class="form-group">
+                                <label>Category Gender</label>
+                                <select class="form-control @error('category_gender') is-invalid @enderror" name="category_gender">
+                                    <option value="Laki-Laki">Laki-Laki</option>
+                                    <option value="Perempuan">Perempuan</option>
+                                    <option value="Campuran">Campuran</option>
+                                </select>
                                 @error('category_gender')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -90,6 +104,7 @@
                                     </div>
                                 @enderror
                             </div>
+
                             <div class="form-group">
                                 <label>Price</label>
                                 <input type="number"
@@ -103,7 +118,8 @@
                                     </div>
                                 @enderror
                             </div>
-                            <div class="form-group">
+
+                            {{-- <div class="form-group">
                                 <label>Description</label>
                                 <input type="text"
                                     class="form-control @error('description')
@@ -115,7 +131,36 @@
                                         {{ $message }}
                                     </div>
                                 @enderror
+                            </div> --}}
+
+
+                            <div class="form-group mb-0">
+                                <label>Description</label>
+                                <textarea
+                                    class="form-control @error('description') is-invalid @enderror"
+                                    name="description"
+                                    rows="4"
+                                    data-height="150"
+                                    required
+                                ></textarea>
+                                @error('description')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                             </div>
+
+                            <div class="form-group ">
+                                <label>Fasilitas</label>
+                                <div class="checkbox">
+                                    @foreach ($facilities as $facility)
+                                        <label>
+                                            <input type="checkbox" name="fasilitas[]" value="{{ $facility }}">{{ $facility }}
+                                        </label>
+                                    @endforeach
+                                </div>
+                            </div>
+
                             <div class="form-group">
                                 <label>Stock</label>
                                 <input type="number"
@@ -144,8 +189,19 @@
                                 @enderror
                             </div>
 
+                            <div class="activity">
+                                <div class="activity-detail">
+                                    <div class="mb-2">
+                                        <span class="text-job">Cara Mendapatkan latitude dan longitute</span>
+                                    </div>
+                                    <div class="image-container mb-2">
+                                        <img src="{{ asset('storage/public/image/lat_log.png') }}" alt="Tutorial Image" class="img-fluid" width="500" height="auto">
+                                    </div>
+                                    <a  href="https://youtube.com/shorts/fvw3dzlZDhc?si=snevNQExd4oYzSVi" target="_blank">Berikut Video Tutotial </a>
+                                </div>
+                            </div>
 
-                            <div class="form-group">
+                            <div class="form-group mt-4" >
                                 <label>Latitude</label>
                                 <input type="text"
                                     class="form-control @error('latitude')
@@ -188,7 +244,7 @@
                             <div class="form-group">
                                 <label>Photo Product</label>
                                 <div class="col-sm-9">
-                                    <input type="file" class="form-control" name="image"
+                                    <input type="file" class="form-control" name="image" accept="image/*"
                                         @error('image') is-invalid @enderror>
                                 </div>
                                 @error('image')
@@ -196,6 +252,13 @@
                                         {{ $message }}
                                     </div>
                                 @enderror
+                            </div>
+
+                            <div class="form-group">
+                                <label>Multi Image</label>
+                                <div class="col-sm-9">
+                                    <input type="file" class="form-control" name="images[]" multiple accept="image/*">
+                                </div>
                             </div>
 
 

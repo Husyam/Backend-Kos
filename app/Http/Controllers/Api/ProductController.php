@@ -8,9 +8,6 @@ use App\Models\Product;
 
 class ProductController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index(Request $request)
     {
         //get all products or search by category_id pagination
@@ -18,9 +15,30 @@ class ProductController extends Controller
             return $query->where('category_id', $request->category_id);
         })->paginate(10);
 
+        // Dekode string JSON fasilitas untuk setiap produk
+        $products->getCollection()->transform(function ($product) {
+            $product->fasilitas = json_decode($product->fasilitas, true);
+            return $product;
+        });
+
+        $products->getCollection()->transform(function ($product) {
+            $product->multi_image = json_decode($product->multi_image, true);
+            return $product;
+        });
+
         // Tambahkan URL lengkap untuk gambar
         $products->getCollection()->transform(function ($product) {
             $product->image = $this->getFullImageUrl($product->image);
+            return $product;
+        });
+
+        //tambahkan URL lengkap untuk multiImage with array
+        $products->getCollection()->transform(function ($product) {
+            if (!empty($product->multi_image)) {
+                $product->multi_image = $this->getFullMultiImageUrl($product->multi_image);
+            } else {
+                $product->multi_image = []; // or some other default value
+            }
             return $product;
         });
 
@@ -28,7 +46,6 @@ class ProductController extends Controller
             'status' => 'success',
             'data' => $products
         ], 200);
-
     }
 
     private function getFullImageUrl($image)
@@ -40,6 +57,16 @@ class ProductController extends Controller
 
         // Menghasilkan URL gambar yang lengkap
         return url('storage/public/products/' . $image);
+    }
+
+    // fungsi getmultiimage
+    private function getFullMultiImageUrl($multi_image)
+    {
+        $urls = [];
+        foreach ($multi_image as $image) {
+            $urls[] = url('storage/public/products/multi/' . $image);
+        }
+        return $urls;
     }
 
     /**
@@ -55,7 +82,7 @@ class ProductController extends Controller
      */
     public function show(string $id)
     {
-        //
+
     }
 
     /**

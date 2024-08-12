@@ -4,14 +4,25 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Category;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class CategoryController extends Controller
 {
-    // Return pages category
-    public function index()
+
+    public function __construct()
     {
-        $categories = Category::paginate(5);
+        $this->middleware('admin');
+    }
+    // Return pages category
+    public function index(Request $request)
+    {
+        $categories = DB::table('categories')
+            ->when($request->input('name'), function ($query, $name) {
+                return $query->where('name', 'like', '%' . $name . '%');
+            })
+            ->paginate(5);
+
         return view('pages.category.index', compact('categories'));
     }
 

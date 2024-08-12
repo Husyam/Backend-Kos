@@ -92,8 +92,8 @@
                                         <span class="selectgroup-button">Admin</span>
                                     </label>
                                     <label class="selectgroup-item">
-                                        <input type="radio" name="roles" value="STAFF" class="selectgroup-input">
-                                        <span class="selectgroup-button">Staff</span>
+                                        <input type="radio" name="roles" value="OWNER" class="selectgroup-input">
+                                        <span class="selectgroup-button">Owner</span>
                                     </label>
                                     <label class="selectgroup-item">
                                         <input type="radio" name="roles" value="USER" class="selectgroup-input">

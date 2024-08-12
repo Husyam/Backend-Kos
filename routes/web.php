@@ -21,13 +21,18 @@ Route::get('/', function () {
     return view('pages.auth.login');
 });
 
+
 //route middleware auth
 Route::middleware(['auth'])->group(function () {
     Route::get('home', function () {
         return view('pages.dashboard');
     })->name('home');
 
+    Route::resource('user', UserController::class)->middleware('admin');
+
     Route::resource('user', UserController::class);
+
+
     //category
     Route::resource('category', CategoryController::class);
 
@@ -36,4 +41,8 @@ Route::middleware(['auth'])->group(function () {
 
     //order
     Route::resource('order', OrderController::class);
+
+    Route::get('orders/download-rekap-pdf', [OrderController::class, 'downloadRekapPdf'])->name('order.downloadRekapPdf');
+
+
 });

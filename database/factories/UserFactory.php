@@ -30,7 +30,10 @@ class UserFactory extends Factory
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
             'phone' => $this->faker->regexify('\+62 8[1-9][0-9]{2}-[0-9]{4}-[0-9]{4}'),
-            'roles' => 'USER'
+            // 'roles' => 'USER'
+
+            //roles USER,OWNER,ADMIN
+            'roles' => $this->faker->randomElement(['USER', 'OWNER', 'ADMIN']),
         ];
     }
 
