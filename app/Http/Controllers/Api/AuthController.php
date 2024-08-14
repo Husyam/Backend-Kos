@@ -101,6 +101,28 @@ class AuthController extends Controller
         ], 200);
     }
 
+    //edit akun
+    public function editProfileById(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+
+        $validated = $request->validate([
+            'name' => 'required|max:100',
+            'email' => 'required|email|unique:users,email,' . $user->id,
+            'phone' => 'required|max:15',
+            'password' => 'required|min:8',
+        ]);
+
+        $validated['password'] = Hash::make($validated['password']);
+
+        $user->update($validated);
+
+        return response()->json([
+            'message' => 'Profile updated successfully'
+        ], 200);
+    }
+
+
 
 
     public function updateFcmId(Request $request){

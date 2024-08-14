@@ -31,6 +31,9 @@ Route::post('login', [App\Http\Controllers\Api\AuthController::class, 'login']);
 //login by id
 Route::get('login/{id}', [App\Http\Controllers\Api\AuthController::class, 'loginById']);
 
+//edit akun
+Route::post('edit-akun', [App\Http\Controllers\Api\AuthController::class, 'editAkun'])->middleware('auth:sanctum');
+
 //categories
 Route::get('categories', [App\Http\Controllers\Api\CategoryController::class, 'index']);
 

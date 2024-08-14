@@ -5,6 +5,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\profileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,6 +32,15 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('user', UserController::class)->middleware('admin');
 
     Route::resource('user', UserController::class);
+
+    //get to show profile
+    // Route::get('profile', [UserController::class, 'showProfile'])->name('profile');
+    Route::get('profile', [profileController::class, 'showProfile'])->name('profile');
+
+    //edit profile
+    Route::get('profile/edit', [profileController::class, 'editProfile'])->name('user.editProfile');
+    //update profile
+    Route::put('/user/profile/update', [profileController::class, 'updateProfile'])->name('user.updateProfile');
 
 
     //category
