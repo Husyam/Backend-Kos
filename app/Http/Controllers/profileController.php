@@ -13,7 +13,6 @@ class profileController extends Controller
         $user = auth()->user();
         return view('pages.setting.profile');
     }
-
     public function editProfile()
     {
         $user = auth()->user();
@@ -21,27 +20,33 @@ class profileController extends Controller
     }
 
 
+    //update profile by id_user yang sedang login
     public function updateProfile(Request $request)
     {
-        $user = User::findOrFail(auth()->user()->id);
+        $user = auth()->user();
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
+            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id_user . ',id_user',
             'phone' => 'required|string|max:20',
-            'password' => 'required|string|min:8',
+            'password' => 'nullable|string|min:8',
         ]);
 
-        $user->name = $request->input('name');
-        $user->email = $request->input('email');
-        $user->phone = $request->input('phone');
-        if ($request->input('password')) {
-            $data['password'] = Hash::make($request->input('password'));
-        } else {
-            $data['password'] = $user->password;
-        }
-        $user->save();
-        // return redirect()->route('pages.setting.profile')->with('success', 'Profile updated successfully!');
-        return redirect()->route('profile')->with('success', 'Profile updated successfully!');
+        User::where('id_user', $user->id_user)->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            //update password
+            'password' => Hash::make($request->password),
+        ]);
 
+        //update password
+        if ($request->password) {
+            User::where('id_user', $user->id_user)->update([
+                'password' => Hash::make($request->password),
+            ]);
+        }
+
+
+        return redirect()->route('profile')->with('success', 'Profile berhasil diupdate');
     }
 }

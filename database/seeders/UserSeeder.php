@@ -32,5 +32,14 @@ class UserSeeder extends Seeder
             'phone' => '08123456789',
             'roles' => 'USER',
         ]);
+
+        //user create roles owner
+        \App\Models\User::create([
+            'name' => 'Owner',
+            'email' => 'owner@gmail.com',
+            'password' => Hash::make('password'),
+            'phone' => '08123456789',
+            'roles' => 'OWNER',
+        ]);
     }
 }

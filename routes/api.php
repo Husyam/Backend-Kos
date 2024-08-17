@@ -32,7 +32,7 @@ Route::post('login', [App\Http\Controllers\Api\AuthController::class, 'login']);
 Route::get('login/{id}', [App\Http\Controllers\Api\AuthController::class, 'loginById']);
 
 //edit akun
-Route::post('edit-akun', [App\Http\Controllers\Api\AuthController::class, 'editAkun'])->middleware('auth:sanctum');
+Route::post('edit-akun', [App\Http\Controllers\Api\AuthController::class, 'editProfileById'])->middleware('auth:sanctum');
 
 //categories
 Route::get('categories', [App\Http\Controllers\Api\CategoryController::class, 'index']);

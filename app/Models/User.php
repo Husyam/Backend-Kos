@@ -47,9 +47,13 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    protected $primaryKey = 'id_user';
+
+
+
     public function personalData()
     {
-        return $this->hasOne(PersonalData::class);
+        return $this->hasOne(PersonalData::class, 'user_id', 'id_user');
     }
 
     public function hasRole($roles)

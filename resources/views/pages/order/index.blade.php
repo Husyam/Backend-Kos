@@ -76,7 +76,7 @@
                                                 <td>{{ $order->payment_va_name }}</td>
                                                 <td>
                                                     <div class="d-flex justify-content-center">
-                                                        <a href='{{ route('order.edit', $order->id) }}'
+                                                        <a href='{{ route('order.edit', $order->id_order) }}'
                                                             class="btn btn-sm btn-info btn-icon">
                                                             <i class="fas fa-edit"></i>
                                                             Edit

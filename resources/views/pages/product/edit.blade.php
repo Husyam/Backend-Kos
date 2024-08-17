@@ -176,7 +176,7 @@
 
                             <div class="form-group">
                                 <label>Latitude</label>
-                                <input type="number" step="0.000001"
+                                <input type="text"
                                     class="form-control @error('latitude') is-invalid @enderror"
                                     name="latitude" value="{{ old('latitude', $product->latitude) }}">
                                 @error('latitude')
@@ -188,7 +188,7 @@
 
                             <div class="form-group">
                                 <label>Longitude</label>
-                                <input type="number" step="0.000001"
+                                <input type="text"
                                     class="form-control @error('longitude') is-invalid @enderror"
                                     name="longitude" value="{{ old('longitude', $product->longitude) }}">
                                 @error('longitude')
@@ -203,8 +203,8 @@
                                 <select class="form-control @error('category_id') is-invalid @enderror" name="category_id">
                                     <option value="">Select Category</option>
                                     @foreach ($categories as $category)
-                                        <option value="{{ $category->id }}"
-                                            {{ $product->category_id == $category->id ? 'selected' : '' }}>
+                                        <option value="{{ $category->id_category }}"
+                                            {{ $product->category_id == $category->id_category ? 'selected' : '' }}>
                                             {{ $category->name }}</option>
                                     @endforeach
                                 </select>
@@ -222,6 +222,19 @@
                                     </div>
                                 @enderror
                             </div>
+
+                            <div class="form-group">
+                                <label>Photo Product</label>
+                                <div class="col-sm-9">
+                                    @if ($product->multi_image)
+                                        @foreach (json_decode($product->multi_image, true) as $image)
+                                            <img src="{{ asset('storage/products/multi/' . $image) }}" alt="" width="100">
+                                        @endforeach
+                                    @endif
+                                    <input type="file" class="form-control" name="images[]" multiple>
+                                </div>
+                            </div>
+
 
                         </div>
                         <div class="card-footer text-right">

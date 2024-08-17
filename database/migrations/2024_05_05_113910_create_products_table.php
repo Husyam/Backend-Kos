@@ -12,10 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('products', function (Blueprint $table) {
-            $table->id();
-            //category id
-            // $table->foreignId('category_id')->constrained('categories');
-            $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
+            // $table->id();
+            $table->bigIncrements('id_product');
+            $table->foreignId('category_id')->constrained('categories')->references('id_category')->onDelete('cascade');
             $table->string('name');
             //name owner
             $table->string('name_owner');

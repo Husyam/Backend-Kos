@@ -65,13 +65,13 @@
                                                 <td>{{ $category->created_at }}</td>
                                                 <td>
                                                     <div class="d-flex justify-content-center">
-                                                        <a href='{{ route('category.edit', $category->id) }}'
+                                                        <a href='{{ route('category.edit', $category->id_category) }}'
                                                             class="btn btn-sm btn-info btn-icon">
                                                             <i class="fas fa-edit"></i>
                                                             Edit
                                                         </a>
 
-                                                        <form action="{{ route('category.destroy', $category->id) }}"
+                                                        <form action="{{ route('category.destroy', $category->id_category) }}"
                                                             method="POST" class="ml-2" enctype="multipart/form-data">
                                                             <input type="hidden" name="_method" value="DELETE" />
                                                             <input type="hidden" name="_token"

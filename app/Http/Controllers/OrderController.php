@@ -92,24 +92,13 @@ class OrderController extends Controller
 
     public function downloadRekapPdf()
     {
-        //saya ingin yang mendownload rekap ini yaitu owner dari pemilik produk tersebut bukan user yang order produk tersebut, kemudian admin juga bisa mendownload rekap tersebut untuk melihat semua orderan yang masuk
-        // $owner = auth()->user();
-        // $orders = Order::with('orderItems.product', 'user.personalData')
-        //     ->when($owner->roles == 'OWNER', function ($query) use ($owner) {
-        //         return $query->whereHas('orderItems.product', function ($query) use ($owner) {
-        //             $query->where('user_id', $owner->id);
-        //         });
-        //     })
-        //     ->get();
-        // $pdf = PDF::loadView('pages.order.pdf', compact('orders'));
-        // return $pdf->download('rekap-pesanan.pdf');
 
         $owner = auth()->user();
 
         $orders = Order::with('orderItems.product', 'user.personalData')
             ->when($owner->roles == ('OWNER'), function ($query) use ($owner) {
                 $query->whereHas('orderItems.product', function ($query) use ($owner) {
-                    $query->where('user_id', $owner->id);
+                    $query->where('user_id', $owner->id_user);
                 });
             })
             ->get();

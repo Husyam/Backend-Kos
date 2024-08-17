@@ -15,6 +15,7 @@ class ProductController extends Controller
             return $query->where('category_id', $request->category_id);
         })->paginate(10);
 
+
         // Dekode string JSON fasilitas untuk setiap produk
         $products->getCollection()->transform(function ($product) {
             $product->fasilitas = json_decode($product->fasilitas, true);

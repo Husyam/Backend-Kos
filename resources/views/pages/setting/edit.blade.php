@@ -48,6 +48,7 @@
                                             </div>
                                         @enderror
                                     </div>
+
                                     <div class="form-group">
                                         <label>Email</label>
                                         <input type="email"
@@ -61,6 +62,7 @@
                                             </div>
                                         @enderror
                                     </div>
+
                                     <div class="form-group">
                                         <label>Password</label>
                                         <div class="input-group">

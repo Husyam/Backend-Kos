@@ -25,7 +25,7 @@ class CreateVAService extends Midtrans
         $itemDetails = [];
         foreach ($this->order->orderItems as $orderItem) {
             $itemDetails[] = [
-                'id' => $orderItem->product->id,
+                'id' => $orderItem->product->id_product,
                 'price' => $orderItem->product->price,
                 'quantity' => $orderItem->quantity,
                 'name' => $orderItem->product->name,
@@ -51,6 +51,7 @@ class CreateVAService extends Midtrans
             'customer_details' => [
                 'first_name' => $this->order->user->name,
                 'email' => $this->order->user->email,
+                'phone' => $this->order->personalData->phone,
             ],
             'bank_transfer' => [
                 'bank' => $this->order->payment_va_name,

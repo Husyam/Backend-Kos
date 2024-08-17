@@ -3,6 +3,8 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\User;
+
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Product>
@@ -16,6 +18,8 @@ class ProductFactory extends Factory
      */
     public function definition(): array
     {
+
+
         return [
             'name' => fake()->name(),
             //name owner
@@ -26,13 +30,17 @@ class ProductFactory extends Factory
             //price
             'price' => fake()->randomNumber(4),
             'description' => fake()->text(),
-            // 'fasilitas' => fake()->randomElement(['AC', 'Wifi', 'Kulkas', 'TV', 'Kamar Mandi', 'smoking area']),
+            // 'fasilitas' => fake()->randomElement(['AC', 'Wifi', 'Kulkas', 'TV', 'Kamar Mandi', 'smoking area']), data berupa array
+            'fasilitas' => json_encode(['AC', 'Wifi', 'Kulkas', 'TV', 'Kamar Mandi', 'smoking area']),
             'stock' => fake()->randomNumber(2),
             'address' => fake()->address(),
             'latitude' => fake()->latitude(),
             'longitude' => fake()->longitude(),
             'image' => fake()->imageUrl(),
+            'multi_image' => json_encode([fake()->imageUrl(), fake()->imageUrl(), fake()->imageUrl()]),
             'category_id' => fake()->numberBetween(1, 4),
+
+
         ];
     }
 }

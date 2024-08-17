@@ -23,19 +23,21 @@ class Order extends Model
         'transaction_number',
     ];
 
+    protected $primaryKey = 'id_order';
+
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id', 'id_user');
     }
 
     public function orderItems()
     {
-        return $this->hasMany(OrderItem::class);
+        return $this->hasMany(OrderItem::class, 'order_id', 'id_order');
     }
 
     public function personalData()
     {
-        return $this->belongsTo(PersonalData::class);
+        return $this->belongsTo(PersonalData::class, 'personal_data_id', 'id_personal_data');
     }
 
 

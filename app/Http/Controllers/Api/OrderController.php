@@ -32,14 +32,13 @@ class OrderController extends Controller
         // hitung sub total
         $subTotal = 0;
         foreach ($request->items as $item) {
-            // get product price
             $product = Product::find($item['product_id']);
             $subTotal += $product->price * $item['quantity'];
         }
 
         // buat order
         $order = Order::create([
-            'user_id' => $request->user()->id,
+            'user_id' => $request->user()->id_user,
             'personal_data_id' => $request->personal_data_id,
             'shipping_cost' => $shippingCost,
             'sub_total' => $subTotal,
@@ -59,7 +58,7 @@ class OrderController extends Controller
         // buat order items
         foreach ($request->items as $item) {
             OrderItem::create([
-                'order_id' => $order->id,
+                'order_id' => $order->id_order,
                 'product_id' => $item['product_id'],
                 'quantity' => $item['quantity'],
             ]);
@@ -100,15 +99,12 @@ class OrderController extends Controller
     }
 
     public function getOrderByUser(Request $request){
-        $orders = Order::where('user_id', $request->user()->id)->get();
+        $orders = Order::where('user_id', $request->user()->id_user)->get();
 
         return response()->json([
             // 'status' => 'success',
             'orders' => $orders,
         ]);
     }
-
-
-
 
 }

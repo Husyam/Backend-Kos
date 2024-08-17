@@ -123,6 +123,7 @@ class ProductController extends Controller
         $product->address = $request->address;
         $product->latitude = $request->latitude;
         $product->longitude = $request->longitude;
+        // $product->id_category = $request->id_category;
         $product->category_id = $request->category_id;
 
         if ($request->image) {
@@ -132,6 +133,17 @@ class ProductController extends Controller
             $request->image->storeAs('public/products', $filename);
             $product->image = $filename;
         }
+
+        if ($request->hasFile('images')) {
+            $images = [];
+            foreach ($request->file('images') as $image) {
+                $filename = time() . '_' . $image->getClientOriginalName();
+                $image->storeAs('public/products/multi', $filename);
+                $images[] = $filename;
+            }
+            $product->multi_image = json_encode($images);
+        }
+
         $product->fasilitas = json_encode($request->input('fasilitas', []));
         $product->save();
 

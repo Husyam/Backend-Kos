@@ -13,10 +13,13 @@ class Product extends Model
         'fasilitas' => '[]', // Set default value for fasilitas to an empty array
     ];
 
+    protected $primaryKey = 'id_product';
+
 
     public function category()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(Category::class, 'category_id', 'id_category');
+
     }
 
 }

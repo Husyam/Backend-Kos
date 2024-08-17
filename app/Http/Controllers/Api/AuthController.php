@@ -58,7 +58,7 @@ class AuthController extends Controller
 
         if(!$user){
             return response()->json([
-                'message' => 'User Not Found'
+                'message' => 'User atau email tidak ditemukan'
             ], 401);
         }
 
@@ -71,7 +71,7 @@ class AuthController extends Controller
 
         if (!Hash::check($validated['password'], $user->password)) {
             return response()->json([
-                'message' => 'Invalid Password'
+                'message' => 'Password yang anda masukkan salah'
             ], 401);
         }
 
@@ -101,26 +101,45 @@ class AuthController extends Controller
         ], 200);
     }
 
-    //edit akun
-    public function editProfileById(Request $request, $id)
+    //edit akun by id_user yang sedang login
+    public function editProfileById(Request $request)
     {
-        $user = User::findOrFail($id);
-
-        $validated = $request->validate([
-            'name' => 'required|max:100',
-            'email' => 'required|email|unique:users,email,' . $user->id,
-            'phone' => 'required|max:15',
-            'password' => 'required|min:8',
+        $user = $request->user();
+        $request->validate([
+            'name' => 'nullable|string|max:255',
+            'email' => 'nullable|string|email|max:255|unique:users,email,' . $user->id_user . ',id_user',
+            'phone' => 'nullable|string|max:20',
+            // 'password' => 'nullable|string|min:8',
+            //password bisa diisi atau tidak dan minimal 8 karakter dan unik berupa abjad dan angka
+            'password' => 'nullable|string|min:8|regex:/^(?=.*[a-zA-Z])(?=.*\d).+$/',
         ]);
 
-        $validated['password'] = Hash::make($validated['password']);
+        //dapatkan access token yang ada
+        $token = $user->currentAccessToken();
 
-        $user->update($validated);
+        User::where('id_user', $user->id_user)->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            //update password
+            'password' => Hash::make($request->password),
+        ]);
+
+        //update password
+        if ($request->password) {
+            User::where('id_user', $user->id_user)->update([
+                'password' => Hash::make($request->password),
+            ]);
+        }
 
         return response()->json([
-            'message' => 'Profile updated successfully'
+            'access_token' => $token,
+            'user' => $user,
+            'message' => 'Profile berhasil diupdate'
+
         ], 200);
     }
+
 
 
 

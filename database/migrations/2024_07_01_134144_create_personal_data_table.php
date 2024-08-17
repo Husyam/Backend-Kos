@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('personal_data', function (Blueprint $table) {
-            $table->id();
+            // $table->id();
+            $table->bigIncrements('id_personal_data');
             $table->string('name');
             //gender
             $table->string('gender');
@@ -22,8 +23,9 @@ return new class extends Migration
             $table->string('contact');
             // //date check in
             // $table->date('date_check_in');
-            //user id
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            //id user by table users
+            $table->foreignId('user_id')->constrained('users')->references('id_user')->onDelete('cascade');
+
             //is default
             $table->boolean('is_default')->default(false);
             $table->timestamps();

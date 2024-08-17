@@ -91,9 +91,9 @@ class CategoryController extends Controller
     }
 
     // Destroy
-    public function destroy($id)
+    public function destroy($category_id)
     {
-        $category = Category::findOrFail($id);
+        $category = Category::findOrFail($category_id);
 
         // Delete the image from storage
         if ($category->image && Storage::exists('public/categories/' . $category->image)) {
