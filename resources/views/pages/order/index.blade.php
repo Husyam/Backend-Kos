@@ -53,6 +53,7 @@
                                             <th>Customer</th>
                                             <th>Kos Quantity</th>
                                             <th>Total</th>
+                                            <th>Transaction Number</th>
                                             <th>Transaction Date</th>
                                             <th>Status</th>
                                             <th>Payment Method</th>
@@ -71,9 +72,11 @@
                                                 <td>{{ $order->user->personalData->name }} ({{ $order->user->name }})</td>
                                                 <td>{{ $orderItem->quantity }} Bulan</td>
                                                 <td>{{ $order->total_cost }}</td>
+                                                <td>{{ $order->transaction_number }}</td>
                                                 <td>{{ $order->created_at }}</td>
                                                 <td>{{ $order->status }}</td>
                                                 <td>{{ $order->payment_va_name }}</td>
+
                                                 <td>
                                                     <div class="d-flex justify-content-center">
                                                         <a href='{{ route('order.edit', $order->id_order) }}'
@@ -86,11 +89,17 @@
                                             </tr>
                                         @endforeach
                                     </table>
+                                    <div class="float-left">
+                                        <h4>
+                                            Total Pendapatan: Rp. {{ number_format($totalRevenue, 0) }}
+                                        </h4>
+                                    </div>
                                 </div>
                                 <div class="float-right">
                                     {{ $orders->withQueryString()->links() }}
                                 </div>
                             </div>
+
                         </div>
                     </div>
                 </div>

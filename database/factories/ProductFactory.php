@@ -38,7 +38,7 @@ class ProductFactory extends Factory
             'longitude' => fake()->longitude(),
             'image' => fake()->imageUrl(),
             'multi_image' => json_encode([fake()->imageUrl(), fake()->imageUrl(), fake()->imageUrl()]),
-            'category_id' => fake()->numberBetween(1, 4),
+            'id_category' => fake()->numberBetween(1, 4),
 
 
         ];

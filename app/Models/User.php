@@ -53,7 +53,7 @@ class User extends Authenticatable
 
     public function personalData()
     {
-        return $this->hasOne(PersonalData::class, 'user_id', 'id_user');
+        return $this->hasOne(PersonalData::class, 'id_user');
     }
 
     public function hasRole($roles)

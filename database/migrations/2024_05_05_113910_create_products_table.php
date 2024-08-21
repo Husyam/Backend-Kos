@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             // $table->id();
             $table->bigIncrements('id_product');
-            $table->foreignId('category_id')->constrained('categories')->references('id_category')->onDelete('cascade');
+            $table->foreignId('id_category')->constrained('categories')->references('id_category')->onDelete('cascade');
             $table->string('name');
             //name owner
             $table->string('name_owner');

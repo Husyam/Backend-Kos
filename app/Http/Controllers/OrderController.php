@@ -32,20 +32,47 @@ class OrderController extends Controller
 
     //     return view('pages.order.index', compact('orders'));
     // }
+    // public function index(Request $request)
+    // {
+    //     $orders = Order::with('user.personalData')
+    //         ->when(Auth::user()->roles == 'OWNER', function($query) {
+    //             return $query->whereHas('orderItems.product', function ($query) {
+    //                 $query->where('user_id', Auth::id());
+    //             });
+    //         })
+    //         ->latest()
+    //         ->paginate(10);
+
+    //     $revenueData = $this->getRevenueData();
+    //     $totalRevenue = $orders->sum('total_cost'); // tambahkan kode ini
+
+    //     return view('pages.order.index', compact('orders', 'revenueData', 'totalRevenue'));
+    // }
+
     public function index(Request $request)
     {
-        $orders = Order::with('user.personalData')
-            ->when(Auth::user()->roles == 'OWNER', function($query) {
-                return $query->whereHas('orderItems.product', function ($query) {
-                    $query->where('user_id', Auth::id());
-                });
-            })
-            ->latest()
-            ->paginate(10);
 
+            if (Auth::user()->roles == 'ADMIN') {
+                $orders = Order::whereIn('status', ['paid', 'pending'])->paginate(10);
+                $totalRevenue = Order::where('status', 'paid')->sum('total_cost');
+            } else {
+                $orders = Order::whereIn('status', ['paid', 'pending'])
+                    ->whereHas('orderItems.product', function ($query) {
+                        $query->where('id_user', Auth::id());
+                    })
+                    ->paginate(10);
+                $totalRevenue = Order::where('status', 'paid')
+                    ->whereHas('orderItems.product', function ($query) {
+                        $query->where('id_user', Auth::id());
+                    })
+                    ->sum('total_cost');
+            }
+
+        // kode lainnya...
         $revenueData = $this->getRevenueData();
 
-        return view('pages.order.index', compact('orders', 'revenueData'));
+
+        return view('pages.order.index', compact('orders', 'revenueData', 'totalRevenue'));
     }
 
     public function create()
@@ -64,17 +91,27 @@ class OrderController extends Controller
         return view('pages.order.edit', compact('order'));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $id_order)
     {
-        $order = Order::findOrFail($id);
+        $order = Order::findOrFail($id_order);
         $order->update([
             'status' => $request->status,
         ]);
 
-        $this->sendNotificationToUser($order->user_id, 'Order status updated to ' . $request->status);
+        $this->sendNotificationToUser($order->id_user, 'Order status updated to ' . $request->status);
 
         return redirect()->route('order.index');
     }
+    // {
+    //     $order = Order::findOrFail($id);
+    //     $order->update([
+    //         'status' => $request->status,
+    //     ]);
+
+    //     $this->sendNotificationToUser($order->user_id, 'Order status updated to ' . $request->status);
+
+    //     return redirect()->route('order.index');
+    // }
 
     protected function sendNotificationToUser($userId, $message)
     {
@@ -98,12 +135,14 @@ class OrderController extends Controller
         $orders = Order::with('orderItems.product', 'user.personalData')
             ->when($owner->roles == ('OWNER'), function ($query) use ($owner) {
                 $query->whereHas('orderItems.product', function ($query) use ($owner) {
-                    $query->where('user_id', $owner->id_user);
+                    $query->where('id_user', $owner->id_user);
                 });
             })
-            ->get();
+        ->get();
+        $totalRevenue = $orders->sum('total_cost'); // tambahkan kode ini
 
-        $pdf = PDF::loadView('pages.order.pdf', compact('orders'));
+
+        $pdf = PDF::loadView('pages.order.pdf', compact('orders', 'totalRevenue'));
         return $pdf->download('rekap-pesanan.pdf');
 
 

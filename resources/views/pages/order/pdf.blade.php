@@ -51,5 +51,10 @@
                 @endforeach
             </tbody>
         </table>
+        <div class="float-left">
+            <h5>
+                Total Pendapatan: Rp. {{ number_format($totalRevenue, 0) }}
+            </h5>
+        </div>
     </div> <!-- close the div -->
 @endsection

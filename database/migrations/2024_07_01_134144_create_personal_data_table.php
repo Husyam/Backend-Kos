@@ -24,7 +24,7 @@ return new class extends Migration
             // //date check in
             // $table->date('date_check_in');
             //id user by table users
-            $table->foreignId('user_id')->constrained('users')->references('id_user')->onDelete('cascade');
+            $table->foreignId('id_user')->constrained('users')->references('id_user')->onDelete('cascade');
 
             //is default
             $table->boolean('is_default')->default(false);

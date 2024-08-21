@@ -231,11 +231,11 @@
 
                             <div class="form-group">
                                 <label class="form-label">Category</label>
-                                <select class="form-control @error('category_id') is-invalid @enderror" name="category_id">
+                                <select class="form-control @error('id_category') is-invalid @enderror" name="id_category">
                                     <option value="">Select Category</option>
                                     @foreach ($categories as $category)
                                         <option value="{{ $category->id_category }}"
-                                            {{ old('category_id') == $category->id_category ? 'selected' : '' }}>
+                                            {{ old('id_category') == $category->id_category ? 'selected' : '' }}>
                                             {{ $category->name }}</option>
                                     @endforeach
                                 </select>

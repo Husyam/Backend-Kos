@@ -70,8 +70,11 @@
                                             <tr>
                                                 <td>{{ $product->name }}
                                                 </td>
+                                                {{-- <td>{{ $product->category->name }}
+                                                </td> --}}
                                                 <td>{{ $product->category->name }}
                                                 </td>
+
                                                 <td>{{ $product->name_owner }}
                                                 </td>
                                                 <td>{{ $product->category_gender }}

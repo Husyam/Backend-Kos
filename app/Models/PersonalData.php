@@ -14,12 +14,15 @@ class PersonalData extends Model
         'gender' ,
         'profession' ,
         'contact' ,
-        'user_id',
+        'id_user' ,
         'is_default' ,
     ];
 
+    protected $primaryKey = 'id_personal_data';
+
     public function user()
     {
-        return $this->belongsTo(User::class, 'user_id', 'id_user');
+        return $this->belongsTo(User::class, 'id_user');
     }
+
 }

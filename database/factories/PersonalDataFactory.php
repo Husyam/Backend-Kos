@@ -34,7 +34,7 @@ class PersonalDataFactory extends Factory
             'gender' => $this->faker->randomElement(['Laki-laki', 'Perempuan']),
             'profession' => $this->faker->jobTitle(),
             'contact' => $this->faker->regexify('\+62 8[1-9][0-9]{2}-[0-9]{4}-[0-9]{4}'),
-            'user_id' => $this->faker->numberBetween(1, 10),
+            'id_user' => $this->faker->numberBetween(1, 10),
             'is_default' => $this->faker->boolean(),
 
         ];

@@ -34,7 +34,7 @@ class ProductController extends Controller
                 $query->where('name', 'like', '%'. $request->name. '%');
             })->paginate(10);
         } else {
-            $products = Product::where('user_id', auth()->id())
+            $products = Product::where('id_user', auth()->id())
                 ->when($request->has('name'), function ($query) use ($request) {
                     $query->where('name', 'like', '%'. $request->name. '%');
                 })->paginate(10);
@@ -86,13 +86,13 @@ class ProductController extends Controller
         $product->longitude = $request->longitude;
         $product->address = $request->address;
         $product->category_gender = $request->category_gender;
-        $product->category_id = $request->category_id;
+        $product->id_category = $request->id_category;
         $product->image = $filename;
         // $product->fasilitas = json_encode($request->fasilitas);
         //user_id save
         // $product->user_id = auth()->id();
         $product->fasilitas = json_encode($request->input('fasilitas', []));
-        $product->user_id = auth()->id();
+        $product->id_user = auth()->id();
         $product->multi_image = json_encode($images);
         $product->save();
 
@@ -104,7 +104,7 @@ class ProductController extends Controller
     {
         $product = \App\Models\Product::findOrFail($id);
         $categories = \App\Models\Category::all();
-        $facilities = ['AC', 'Wifi', 'Kulkas', 'TV', 'Kamar Mandi', 'smoking area'];
+        $facilities = ['AC', 'Non AC', 'Kipas', 'Wifi', 'Kulkas', 'TV', 'Kamar Mandi', 'Smoking Area'];
 
         return view('pages.product.edit', compact('product', 'categories', 'facilities'));
     }
@@ -124,7 +124,8 @@ class ProductController extends Controller
         $product->latitude = $request->latitude;
         $product->longitude = $request->longitude;
         // $product->id_category = $request->id_category;
-        $product->category_id = $request->category_id;
+        $product->id_category = $request->id_category;
+        // $product->id_category = $request->input('id_category');
 
         if ($request->image) {
             //filename

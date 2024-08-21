@@ -10,8 +10,8 @@ class Order extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
-        'personal_data_id',
+        'id_user',
+        'id_personal_data',
         'shipping_cost',
         'payment_va_name',
         'payment_va_number',
@@ -27,18 +27,20 @@ class Order extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'user_id', 'id_user');
-    }
-
-    public function orderItems()
-    {
-        return $this->hasMany(OrderItem::class, 'order_id', 'id_order');
+        return $this->belongsTo(User::class, 'id_user');
     }
 
     public function personalData()
     {
-        return $this->belongsTo(PersonalData::class, 'personal_data_id', 'id_personal_data');
+        return $this->belongsTo(PersonalData::class, 'id_personal_data');
     }
+
+    public function orderItems()
+    {
+        return $this->hasMany(OrderItem::class, 'id_order');
+    }
+
+
 
 
 }

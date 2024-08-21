@@ -19,7 +19,7 @@ class OrderController extends Controller
     public function order(Request $request){
         // validate for order
         $request->validate([
-            'personal_data_id' => 'required',
+            'id_personal_data' => 'required',
             'sub_total' => 'required',
             'total_cost' => 'required',
             'payment_method' => 'required',
@@ -32,14 +32,15 @@ class OrderController extends Controller
         // hitung sub total
         $subTotal = 0;
         foreach ($request->items as $item) {
-            $product = Product::find($item['product_id']);
+            $product = Product::find($item['id_product']);
             $subTotal += $product->price * $item['quantity'];
         }
 
         // buat order
         $order = Order::create([
-            'user_id' => $request->user()->id_user,
-            'personal_data_id' => $request->personal_data_id,
+            //id_user
+            'id_user' => $request->user()->id_user,
+            'id_personal_data' => $request->id_personal_data,
             'shipping_cost' => $shippingCost,
             'sub_total' => $subTotal,
             'total_cost' => $subTotal + $shippingCost,
@@ -58,8 +59,9 @@ class OrderController extends Controller
         // buat order items
         foreach ($request->items as $item) {
             OrderItem::create([
-                'order_id' => $order->id_order,
-                'product_id' => $item['product_id'],
+                // 'order_id' => $order->id_order,
+                'id_order' => $order->id_order,
+                'id_product' => $item['id_product'],
                 'quantity' => $item['quantity'],
             ]);
         }
@@ -99,7 +101,7 @@ class OrderController extends Controller
     }
 
     public function getOrderByUser(Request $request){
-        $orders = Order::where('user_id', $request->user()->id_user)->get();
+        $orders = Order::where('id_user', $request->user()->id_user)->get();
 
         return response()->json([
             // 'status' => 'success',
