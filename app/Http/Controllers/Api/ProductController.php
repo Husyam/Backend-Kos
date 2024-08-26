@@ -11,8 +11,8 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         //get all products or search by category_id pagination
-        $products = Product::when($request->category_id, function ($query) use ($request) {
-            return $query->where('category_id', $request->category_id);
+        $products = Product::when($request->id_category, function ($query) use ($request) {
+            return $query->where('id_category', $request->id_category);
         })->paginate(10);
 
 

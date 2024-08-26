@@ -13,7 +13,7 @@ class PersonalDataController extends Controller
      */
     public function index(Request $request)
     {
-        $personalData = DB::table('personal_data')->where('user_id', $request->user()->id_user)->get();
+        $personalData = DB::table('personal_data')->where('id_user', $request->user()->id_user)->get();
         return response()->json([
             'status' => 'success',
             'data' => $personalData
@@ -32,7 +32,7 @@ class PersonalDataController extends Controller
             'gender'=> $request->gender,
             'profession'=> $request->profession,
             'contact'=> $request->contact,
-            'user_id'=> $request->user()->id_user,
+            'id_user'=> $request->user()->id_user,
             'is_default'=> $request->is_default,
 
         ]);
