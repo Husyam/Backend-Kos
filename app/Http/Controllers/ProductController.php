@@ -158,4 +158,8 @@ class ProductController extends Controller
         $product->delete();
         return redirect()->route('product.index')->with('success', 'Product deleted successfully');
     }
+
+
+    //send notification to user when product is updated or created
+
 }

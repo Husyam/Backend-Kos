@@ -1,6 +1,6 @@
 @extends('layouts.auth')
 
-@section('title', 'Register CBT')
+@section('title', 'Register ')
 
 @push('style')
     <!-- CSS Libraries -->
@@ -29,8 +29,6 @@
                         </div>
                     @enderror
                 </div>
-
-
 
                 <div class="form-group">
                     <label for="email">Email</label>
