@@ -76,6 +76,7 @@
                         {{ $message }}
                     </div>
                 @enderror
+
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary btn-lg btn-block">
                         Register
@@ -83,6 +84,9 @@
                 </div>
             </form>
         </div>
+    </div>
+    <div class="text-muted mt-5 text-center">
+        Already have an account? <a href="{{ route('login') }}">Login</a>
     </div>
 @endsection
 

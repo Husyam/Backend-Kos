@@ -6,9 +6,17 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+//user check role
+use App\Http\Middleware\CheckRole;
 
 class ProductController extends Controller
 {
+    //cek roles
+    public function __construct()
+    {
+        $this->middleware('role:ADMIN,OWNER');
+    }
+
     //index
     public function index(Request $request)
     {
