@@ -75,6 +75,7 @@ class ProductController extends Controller
         $images = [];
         if ($request->hasFile('images')) {
             $counter = 1;
+            //proses penyimpanan gambar
             foreach ($request->file('images') as $image) {
                 $filenameMulti = time() . '_' . $counter . '.' . $image->extension();
                 $image->storeAs('public/products/multi', $filenameMulti);
