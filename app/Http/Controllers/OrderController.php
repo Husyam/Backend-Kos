@@ -98,24 +98,18 @@ class OrderController extends Controller
             'status' => $request->status,
         ]);
 
-        $this->sendNotificationToUser($order->id_user, 'Order status updated to ' . $request->status);
+        if ($request->status == 'paid') {
+            $this->sendNotificationToUser($order->id_user, 'Order Telah Dibayar dan Status Succes/' . $request->status);
+            // $this->sendNotificationToUser($order->first()->id_user, 'Order Dibayar Succes' . $request->status);
+        }
+        // $this->sendNotificationToUser($order->id_user, 'Order status updated to ' . $request->status);
 
         return redirect()->route('order.index');
     }
-    // {
-    //     $order = Order::findOrFail($id);
-    //     $order->update([
-    //         'status' => $request->status,
-    //     ]);
 
-    //     $this->sendNotificationToUser($order->user_id, 'Order status updated to ' . $request->status);
-
-    //     return redirect()->route('order.index');
-    // }
-
-    protected function sendNotificationToUser($userId, $message)
+    protected function sendNotificationToUser($id_user, $message,)
     {
-        $user = User::findOrFail($userId);
+        $user = User::findOrFail($id_user);
         $token = $user->fcm_id;
 
         $messaging = app('firebase.messaging');

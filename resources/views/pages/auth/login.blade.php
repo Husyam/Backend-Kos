@@ -48,11 +48,16 @@
 
                     </div>
 
-
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary btn-lg btn-block" tabindex="4">
                             Login
                         </button>
+                    </div>
+
+                    <div class="float-right">
+                        <a href="{{route('password.request')}}" class="text-small">
+                            Lupa Password?
+                        </a>
                     </div>
             </form>
 
@@ -62,6 +67,7 @@
     <div class="text-muted mt-5 text-center">
         Don't have an account? <a href="{{ route('register') }}">Create One</a>
     </div>
+
 @endsection
 
 @push('scripts')

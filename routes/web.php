@@ -24,7 +24,7 @@ Route::get('/', function () {
 
 
 //route middleware auth
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('home', function () {
         return view('pages.dashboard');
     })->name('home');
@@ -32,6 +32,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('user', UserController::class)->middleware('admin');
 
     Route::resource('user', UserController::class);
+
 
     //get to show profile
     // Route::get('profile', [UserController::class, 'showProfile'])->name('profile');
