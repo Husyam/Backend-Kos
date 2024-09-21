@@ -110,6 +110,10 @@ class OrderController extends Controller
     protected function sendNotificationToUser($id_user, $message,)
     {
         $user = User::findOrFail($id_user);
+
+        //get user by id_user
+        // $user = User::where('id_user', $id_user)->first();
+
         $token = $user->fcm_id;
 
         $messaging = app('firebase.messaging');

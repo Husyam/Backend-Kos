@@ -91,8 +91,8 @@ class OrderController extends Controller
     }
 
     //function for check order status
-    public function checkOrderStatus($id){
-        $order = Order::find($id);
+    public function checkOrderStatus($id_order){
+        $order = Order::find($id_order);
 
         return response()->json([
             // 'status' => 'success',
