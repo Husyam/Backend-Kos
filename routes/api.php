@@ -43,6 +43,9 @@ Route::get('products', [App\Http\Controllers\Api\ProductController::class, 'inde
 //personal data apiResource
 Route::apiResource('personal-data', App\Http\Controllers\Api\PersonalDataController::class)->middleware('auth:sanctum');
 
+//edit personal data
+Route::post('edit-personal-data', [App\Http\Controllers\Api\PersonalDataController::class, 'editProfileById'])->middleware('auth:sanctum');
+
 //order
 Route::post('order', [App\Http\Controllers\Api\OrderController::class, 'order'])->middleware('auth:sanctum');
 
