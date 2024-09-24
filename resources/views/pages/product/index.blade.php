@@ -5,6 +5,15 @@
 @push('style')
     <!-- CSS Libraries -->
     <link rel="stylesheet" href="{{ asset('library/selectric/public/selectric.css') }}">
+    <style>
+       .modal-backdrop {
+            display: none;
+        }
+        #modal-view .modal-backdrop {
+           display: none;
+        }
+
+    </style>
 @endpush
 
 @section('main')
@@ -47,7 +56,7 @@
                                 <div class="clearfix mb-3"></div>
 
                                 <div class="table-responsive">
-                                    <table class="table-striped table">
+                                    <table class="table-striped table table-hover">
                                         <tr>
 
                                             <th>Name</th>
@@ -62,7 +71,6 @@
                                             <th>Address</th>
                                             <th>latitude</th>
                                             <th>longitude</th>
-
                                             <th>Created At</th>
                                             <th>Action</th>
                                         </tr>
@@ -104,12 +112,17 @@
                                                 </td>
                                                 <td>{{ $product->longitude }}
                                                 </td>
-
-
-
                                                 <td>{{ $product->created_at }}</td>
+
                                                 <td>
                                                     <div class="d-flex justify-content-center">
+                                                        {{-- buton view example and icon  --}}
+                                                        <button type="button" class="btn btn-sm btn-primary mr-2" data-toggle="modal" data-target="#productModal{{ $product->id_product }}">
+                                                            <i class="fas fa-eye
+                                                            "></i>
+                                                            View Details
+                                                        </button>
+
                                                         <a href='{{ route('product.edit', $product->id_product) }}'
                                                             class="btn btn-sm btn-info btn-icon">
                                                             <i class="fas fa-edit"></i>
@@ -125,9 +138,46 @@
                                                                 <i class="fas fa-times"></i> Delete
                                                             </button>
                                                         </form>
+
                                                     </div>
                                                 </td>
                                             </tr>
+                                            <!-- Modal for product details -->
+                                            <div class="modal fade" id="productModal{{ $product->id_product }}" tabindex="-1" role="dialog" aria-labelledby="productModalLabel{{ $product->id_product }}" aria-hidden="true">
+                                                <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="productModalLabel{{ $product->id_product }}">{{ $product->name }}</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body table-responsive">
+                                                            <p><strong>Owner:</strong> {{ $product->name_owner }}</p>
+                                                            <p><strong>Category:</strong> {{ $product->category->name }}</p>
+                                                            <p><strong>Contact:</strong> {{ $product->no_kontak }}</p>
+                                                            <p><strong>Price:</strong> {{ $product->price }}</p>
+                                                            <p><strong>Description:</strong> {{ $product->description }}</p>
+                                                            <p><strong>Facilities:</strong></p>
+                                                            <ul>
+                                                                @if (is_array($product->fasilitas))
+                                                                    @foreach ($product->fasilitas as $fasilitas)
+                                                                        <li>{{ $fasilitas }}</li>
+                                                                    @endforeach
+                                                                @else
+                                                                    <li>{{ $product->fasilitas }}</li>
+                                                                @endif
+                                                            </ul>
+                                                            <p><strong>Stock:</strong> {{ $product->stock }}</p>
+                                                            <p><strong>Address:</strong> {{ $product->address }}</p>
+                                                            <p><strong>Location:</strong> {{ $product->latitude }}, {{ $product->longitude }}</p>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         @endforeach
 
 
@@ -151,4 +201,5 @@
 
     <!-- Page Specific JS File -->
     <script src="{{ asset('js/page/features-posts.js') }}"></script>
+
 @endpush

@@ -150,12 +150,12 @@
                                 @enderror
                             </div>
 
-                            <div class="form-group ">
+                            <div class="form-group mt-3 ">
                                 <label>Fasilitas</label>
                                 <div class="checkbox">
                                     @foreach ($facilities as $facility)
                                         <label>
-                                            <input type="checkbox" name="fasilitas[]" value="{{ $facility }}">{{ $facility }}
+                                            <input class="mr-2" type="checkbox" name="fasilitas[]" value="{{ $facility }}">{{ $facility }}
                                         </label>
                                     @endforeach
                                 </div>
