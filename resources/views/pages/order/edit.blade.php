@@ -16,7 +16,7 @@
     <div class="main-content">
         <section class="section">
             <div class="section-body">
-                <h2 class="section-title">Order</h2>
+                <h2 class="section-title mt-5">Order</h2>
                 <div class="card">
                     <form action="{{ route('order.update', $order->id_order) }}" method="POST" enctype="multipart/form-data">
                         @csrf
