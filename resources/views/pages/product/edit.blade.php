@@ -119,6 +119,24 @@
                                 @enderror
                             </div>
 
+                            {{-- rental_type Hari, Minggu, Bulana, Tahun --}}
+                            <div class="form-group
+                                ">
+                                <label>Rental Type</label>
+                                <select class="form-control @error('rental_type') is-invalid @enderror" name="rental_type">
+                                    <option value="Hari" {{ $product->rental_type == 'Hari' ? 'selected' : '' }}>Hari</option>
+                                    <option value="Minggu" {{ $product->rental_type == 'Minggu' ? 'selected' : '' }}>Minggu</option>
+                                    <option value="Bulan" {{ $product->rental_type == 'Bulan' ? 'selected' : '' }}>Bulan</option>
+                                    <option value="Tahun" {{ $product->rental_type == 'Tahun' ? 'selected' : '' }}>Tahun</option>
+                                </select>
+                                @error('rental_type')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+
+
                             <div class="form-group">
                                 <label>description</label>
                                 <input type="text"

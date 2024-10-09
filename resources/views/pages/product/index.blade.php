@@ -65,6 +65,7 @@
                                             <th>Category Gender</th>
                                             <th>No kontak</th>
                                             <th>Price</th>
+                                            <th>Tipe Sewa Kos</th>
                                             <th>Description</th>
                                             <th>Fasilitas</th>
                                             <th>Stock</th>
@@ -90,6 +91,8 @@
                                                 <td>{{ $product->no_kontak }}
                                                 </td>
                                                 <td>{{ $product->price }}
+                                                </td>
+                                                <td>{{ $product->rental_type }}
                                                 </td>
                                                 <td>{{ $product->description }}
                                                 </td>

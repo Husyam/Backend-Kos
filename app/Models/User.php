@@ -3,11 +3,16 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\URL;
+use App\Mail\VerifyEmailTes;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -65,5 +70,14 @@ class User extends Authenticatable implements MustVerifyEmail
     public function isAdmin()
     {
         return $this->roles === 'ADMIN';
+    }
+
+    // Pada model User.php
+    public function sendVerificationEmail()
+    {
+        $verificationUrl = URL::signedRoute('verification.verify2', ['id_user' => $this->id_user]);
+
+        // Kirim email verifikasi ke pengguna
+        Mail::to($this->email)->send(new VerifyEmailTes($verificationUrl));
     }
 }

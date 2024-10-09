@@ -5,7 +5,14 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User; // Import the User model
+use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
+
+
 
 class AuthController extends Controller
 {
@@ -22,17 +29,23 @@ class AuthController extends Controller
        $validated['password'] = Hash::make($validated['password']);
        $validated['roles'] = 'USER';  // Set default role to USER
 
-
        $user = User::create($validated);
+       if (!$user) {
+           return response()->json([
+               'message' => 'Gagal membuat akun'
+           ], 500);
+       }
+       $user->sendVerificationEmail();
 
        $token = $user->createToken('auth_token')->plainTextToken;
 
        return response()->json([
            'access_token' => $token,
            'user' => $user,
+           'message' => 'Registrasi berhasil, Silahkan cek email untuk verifikasi akun',
         //    'token_type' => 'Bearer',
        ],200);
-   }
+    }
 
 
 
@@ -48,15 +61,13 @@ class AuthController extends Controller
     //login
     public function login(Request $request)
     {
-
         $validated = $request->validate([
             'email' => 'email|required',
             'password' => 'required',
         ]);
 
         $user = User::where('email', $validated['email'])->first();
-
-        if(!$user){
+        if (!$user) {
             return response()->json([
                 'message' => 'User atau email tidak ditemukan'
             ], 401);
@@ -69,9 +80,19 @@ class AuthController extends Controller
             ], 403);
         }
 
+        // Check password first
         if (!Hash::check($validated['password'], $user->password)) {
             return response()->json([
                 'message' => 'Password yang anda masukkan salah'
+            ], 401);
+        }
+
+        // If password is correct, then check email verification
+        if ($user->email_verified_at === null) {
+            // Only resend verification email if password is correct
+            $this->resend($request);
+            return response()->json([
+                'message' => 'Email belum terverifikasi, silahkan cek email untuk verifikasi'
             ], 401);
         }
 
@@ -157,4 +178,125 @@ class AuthController extends Controller
             'message' => 'FCM ID updated'
         ], 200);
     }
+
+    public function verify(Request $request, $id_user)
+    {
+        $user = User::find($id_user);
+        if ($user->hasVerifiedEmail()) {
+            return response()->json([
+                'message' => 'Email already verified'
+            ], 200);
+        }
+
+        $user->markEmailAsVerified();
+        $message = 'Email verified';
+        // return view('verified-views', compact('message'));
+        return view('pages.emails.verified-views', compact('message'));
+
+
+    }
+
+    // resend
+    // resend
+    // resend
+    public function resend(Request $request = null)
+    {
+        if ($request) {
+            $validated = $request->validate([
+                'email' => 'required|email',
+            ]);
+
+            $user = User::where('email', $validated['email'])->first();
+        } else {
+            $user = auth()->user();
+        }
+
+        if (!$user) {
+            return response()->json([
+                'message' => 'User   not found'
+            ], 404);
+        }
+
+        if ($user->email_verified_at !== null) {
+            return response()->json([
+                'message' => 'Email already verified'
+            ], 200);
+        }
+
+        $user->sendVerificationEmail();
+        return response()->json([
+            'message' => 'Email verification sent'
+        ], 200);
+    }
+
+    public function forgotPassword(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+        ]);
+
+        $status = Password::sendResetLink(
+            $request->only('email')
+        );
+
+        if ($status === Password::RESET_LINK_SENT) {
+            return response()->json(['message' => 'Reset password link sent to your email'], 200);
+        } else {
+            return response()->json(['message' => 'Unable to send reset link'], 400);
+        }
+    }
+
+    public function resetPassword(Request $request)
+    {
+        $request->validate([
+            'token' => 'required',
+            'email' => 'required|email',
+            'password' => 'required|min:8|confirmed',
+        ]);
+
+        // Check if the token is valid
+        if (!Password::getRepository()->exists($request->email, $request->token)) {
+            return response()->json(['message' => 'Token is invalid or has expired'], 400);
+        }
+
+        $status = Password::reset(
+            $request->only('email', 'password', 'password_confirmation', 'token'),
+            function ($user, $password) {
+                $user->forceFill([
+                    'password' => Hash::make($password)
+                ])->setRememberToken(Str::random(60));
+
+                $user->save();
+
+                event(new PasswordReset($user));
+            }
+        );
+
+        if ($status === Password::PASSWORD_RESET) {
+            return response()->json(['message' => 'Password has been successfully reset'], 200);
+        }
+
+        return response()->json(['message' => 'Unable to reset password'], 400);
+    }
+
+    public function checkResetToken(Request $request)
+    {
+        $request->validate([
+            'token' => 'required',
+            'email' => 'required|email',
+        ]);
+
+        $status = Password::getRepository()->exists(
+            $request->input('email'),
+            $request->input('token')
+        );
+
+        if ($status) {
+            return response()->json(['message' => 'Token is valid'], 200);
+        } else {
+            return response()->json(['message' => 'Token is invalid or has expired'], 400);
+        }
+    }
+
+
 }

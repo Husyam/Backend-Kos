@@ -10,38 +10,8 @@ class ProductController extends Controller
 {
     public function index(Request $request)
     {
-        //get all products or search by category_id pagination
-        $products = Product::when($request->id_category, function ($query) use ($request) {
-            return $query->where('id_category', $request->id_category);
-        })->paginate(10);
-
-
-        // Dekode string JSON fasilitas untuk setiap produk
-        $products->getCollection()->transform(function ($product) {
-            $product->fasilitas = json_decode($product->fasilitas, true);
-            return $product;
-        });
-
-        $products->getCollection()->transform(function ($product) {
-            $product->multi_image = json_decode($product->multi_image, true);
-            return $product;
-        });
-
-        // Tambahkan URL lengkap untuk gambar
-        $products->getCollection()->transform(function ($product) {
-            $product->image = $this->getFullImageUrl($product->image);
-            return $product;
-        });
-
-        //tambahkan URL lengkap untuk multiImage with array
-        $products->getCollection()->transform(function ($product) {
-            if (!empty($product->multi_image)) {
-                $product->multi_image = $this->getFullMultiImageUrl($product->multi_image);
-            } else {
-                $product->multi_image = []; // or some other default value
-            }
-            return $product;
-        });
+        $products = $this->getProducts($request);
+        $this->transformProducts($products);
 
         return response()->json([
             'status' => 'success',
@@ -49,25 +19,41 @@ class ProductController extends Controller
         ], 200);
     }
 
-    private function getFullImageUrl($image)
+    private function getProducts(Request $request)
     {
-        // Jika gambar sudah merupakan URL lengkap, tidak perlu mengubahnya
-        if (filter_var($image, FILTER_VALIDATE_URL)) {
-            return $image;
-        }
-
-        // Menghasilkan URL gambar yang lengkap
-        return url('storage/public/products/' . $image);
+        return Product::when($request->id_category, function ($query) use ($request) {
+            return $query->where('id_category', $request->id_category);
+        })->paginate(10);
     }
 
-    // fungsi getmultiimage
-    private function getFullMultiImageUrl($multi_image)
+    private function transformProducts($products)
     {
-        $urls = [];
-        foreach ($multi_image as $image) {
-            $urls[] = url('storage/public/products/multi/' . $image);
-        }
-        return $urls;
+        $products->getCollection()->transform(function ($product) {
+            $product->fasilitas = json_decode($product->fasilitas, true);
+            $product->multi_image = $this->processMultiImage($product->multi_image);
+            $product->image = $this->getFullImageUrl($product->image);
+            return $product;
+        });
+    }
+
+    private function processMultiImage($multiImage)
+    {
+        $decodedImages = json_decode($multiImage, true);
+        return !empty($decodedImages) ? $this->getFullMultiImageUrl($decodedImages) : [];
+    }
+
+    private function getFullImageUrl($image)
+    {
+        return filter_var($image, FILTER_VALIDATE_URL)
+            ? $image
+            : url('storage/public/products/' . $image);
+    }
+
+    private function getFullMultiImageUrl($multiImage)
+    {
+        return array_map(function ($image) {
+            return url('storage/public/products/multi/' . $image);
+        }, $multiImage);
     }
 
     /**

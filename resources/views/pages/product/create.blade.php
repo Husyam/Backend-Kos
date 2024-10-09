@@ -119,19 +119,22 @@
                                 @enderror
                             </div>
 
-                            {{-- <div class="form-group">
-                                <label>Description</label>
-                                <input type="text"
-                                    class="form-control @error('description')
-                                is-invalid
-                            @enderror"
-                                    name="description">
-                                @error('description')
+                            {{-- rental_type Hari, Minggu, Bulana, Tahun --}}
+                            <div class="form-group
+                                @error('rental_type') is-invalid @enderror">
+                                <label>Rental Type</label>
+                                <select class="form-control" name="rental_type">
+                                    <option value="Hari">Hari</option>
+                                    <option value="Minggu">Minggu</option>
+                                    <option value="Bulan">Bulan</option>
+                                    <option value="Tahun">Tahun</option>
+                                </select>
+                                @error('rental_type')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
                                 @enderror
-                            </div> --}}
+                            </div>
 
 
                             <div class="form-group mb-0">

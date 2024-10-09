@@ -20,23 +20,6 @@ class ProductController extends Controller
     //index
     public function index(Request $request)
     {
-        // $products = \App\Models\Product::paginate(5);
-        // // $products = Product::all();
-        // return view('pages.product.index', compact('products'));
-
-        //$products = \App\Models\Product::paginate(5);
-
-        // $products = DB::table('products')
-        //     ->when($request->input('name'), function ($query, $name) {
-        //         return $query->where('name', 'like', '%' . $name . '%');
-        //     })
-        //     ->paginate(5);
-
-        // foreach ($products as $product) {
-        //     $product->fasilitas = json_decode($product->fasilitas, true);
-        // }
-        // return view('pages.product.index', compact('products'));
-
         if (Auth::user()->roles == 'ADMIN') {
             $products = Product::when($request->has('name'), function ($query) use ($request) {
                 $query->where('name', 'like', '%'. $request->name. '%');
@@ -89,6 +72,7 @@ class ProductController extends Controller
         $product->name_owner = $request->name_owner;
         $product->no_kontak = $request->no_kontak;
         $product->price = (int) $request->price;
+        $product->rental_type = $request->rental_type;
         $product->description = $request->description;
         $product->stock = (int) $request->stock;
         $product->latitude = $request->latitude;
@@ -127,6 +111,7 @@ class ProductController extends Controller
         $product->category_gender = $request->category_gender;
         $product->no_kontak = $request->no_kontak;
         $product->price = (int) $request->price;
+        $product->rental_type = $request->rental_type;
         $product->description = $request->description;
         $product->stock = (int) $request->stock;
         $product->address = $request->address;
