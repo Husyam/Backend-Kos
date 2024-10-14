@@ -196,9 +196,6 @@ class AuthController extends Controller
 
     }
 
-    // resend
-    // resend
-    // resend
     public function resend(Request $request = null)
     {
         if ($request) {

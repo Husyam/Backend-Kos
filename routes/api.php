@@ -66,7 +66,7 @@ Route::get('order/{id}', [App\Http\Controllers\Api\OrderController::class, 'getO
 
 Route::get('email/verify/{id_user}', [App\Http\Controllers\Api\AuthController::class, 'verify'])->name('verification.verify2');
 // route get resend email verification
-Route::get('email/resend', [App\Http\Controllers\Api\AuthController::class, 'resend'])->name('verification.resend2');
+Route::get('email-resend', [App\Http\Controllers\Api\AuthController::class, 'resend'])->name('verification.resend2');
 
 Route::post('/forgot-password', [AuthController::class, 'forgotPassword']);
 Route::post('/reset-password', [AuthController::class, 'resetPassword']);
